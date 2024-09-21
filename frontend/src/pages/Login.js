@@ -1,0 +1,139 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import api from '../services/api';
+
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate(); // Hook for navigation
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Make the login request to the backend
+      const response = await api.post('/users/login', { email, password });
+      // Assuming the backend sends a token and user info
+      localStorage.setItem('userInfo', JSON.stringify(response.data));
+      // Redirect to the "/list" page
+      navigate('/list');
+    } catch (err) {
+      setError('Invalid email or password');
+    }
+  };
+
+  return (
+    <div className="auth-container">
+      <img src="image1.jpg" alt="Background" className="background-image" />
+      <div className="auth-box">
+        <h2>Login</h2>
+        {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error */}
+        <form onSubmit={handleSubmit}>
+          <label>
+            Email:
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Password:
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          <a href="/reset-password" className="forgot-password">Forgot Password?</a>
+          <button type="submit">Login</button>
+          <p>Don't have an account? <a href="/signup">Sign up</a></p>
+        </form>
+      </div>
+      <style>
+        {`
+          .auth-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+          }
+
+          .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(50%);
+          }
+
+          .auth-box {
+            position: relative;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+          }
+
+          .auth-box h2 {
+            margin-top: 0;
+          }
+
+          .auth-box label {
+            display: block;
+            margin-bottom: 10px;
+          }
+
+          .auth-box input {
+            width: 90%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+          }
+
+          .auth-box button {
+            background: #FF4D4D;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+          }
+
+          .auth-box button:hover {
+            background: #FF7E7E;
+          }
+
+          .forgot-password {
+            display: block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #FF4D4D;
+          }
+
+          .forgot-password:hover {
+            text-decoration: underline;
+          }
+
+          .auth-box p {
+            margin-top: 10px;
+          }
+        `}
+      </style>
+    </div>
+  );
+};
+
+export default Login;
