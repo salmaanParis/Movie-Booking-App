@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 
-const initialMovies = [
-  { id: 1, name: 'Movie A', image: '/api/placeholder/100/150', category: 'PG', languages: ['English', 'Hindi'], rating: 4.5, ticketsSold: { '2024-09-01': 100, '2024-09-02': 120 }, cast: 'Actor A, Actor B', description: 'A thrilling adventure.', ticketRates: '10$-15$', seats: 200 },
-  { id: 2, name: 'Movie B', image: '/api/placeholder/100/150', category: 'UA', languages: ['Tamil', 'Telugu'], rating: 4.0, ticketsSold: { '2024-09-01': 150, '2024-09-02': 80 }, cast: 'Actor C, Actor D', description: 'A romantic drama.', ticketRates: '12$-18$', seats: 150 },
-];
 
 const AdminDashboard = ({ onLogout }) => {
-  const [movies, setMovies] = useState(initialMovies);
+  const [movies, setMovies] = useState([]);
   const [isAddMovieVisible, setIsAddMovieVisible] = useState(false);
   const [editMovieId, setEditMovieId] = useState(null);
   const [newMovie, setNewMovie] = useState({
@@ -56,6 +52,20 @@ const AdminDashboard = ({ onLogout }) => {
     setIsAddMovieVisible(false);
   };
 
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const res = await api.get('/users/movies');
+        console.log("res>>>>>>>", res?.data?.movies);
+        setMovies(res?.data?.movies)
+      } catch (err) {
+        console.log("err", err);
+      }
+    };
+
+    fetchMovies();
+  }, []);
+
   return (
     <div style={styles.container}>
       <div style={styles.sidebar}>
@@ -71,27 +81,27 @@ const AdminDashboard = ({ onLogout }) => {
 
         <div style={styles.movieList}>
           {movies.map(movie => (
-            <div key={movie.id} style={styles.movieCard}>
+            <div key={movie._id} style={styles.movieCard}>
               <div style={styles.movieContent}>
-                <img src={movie.image} alt={movie.name} style={styles.movieImage} />
+                <img src={movie?.image} alt={movie?.name} style={styles.movieImage} />
                 <div style={styles.movieDetails}>
-                  <h2 style={styles.movieName}>{movie.name}</h2>
-                  <p>Category: {movie.category}</p>
-                  <p>Languages: {movie.languages.join(', ')}</p>
-                  <p>Average Rating: {movie.rating}</p>
-                  <p>Cast: {movie.cast}</p>
-                  <p>Description: {movie.description}</p>
-                  <p>Ticket Rates: {movie.ticketRates}</p>
-                  <p>Number of Seats: {movie.seats}</p>
+                  <h2 style={styles.movieName}>{movie?.name}</h2>
+                  <p>Category: {movie?.category}</p>
+                  <p>Languages: {movie?.languages.join(', ')}</p>
+                  {/* <p>Average Rating: {movie.rating}</p> */}
+                  <p>Cast: {movie?.cast}</p>
+                  <p>Description: {movie?.description}</p>
+                  <p>Ticket Rates: {movie?.ticketRates}</p>
+                  <p>Number of Seats: {movie?.seats}</p>
                   <p>Tickets Sold per Day:</p>
-                  <ul>
+                  {/* <ul>
                     {Object.entries(movie.ticketsSold).map(([date, count]) => (
                       <li key={date}>{date}: {count} tickets</li>
                     ))}
-                  </ul>
+                  </ul> */}
                   <div style={styles.buttonGroup}>
-                    <button style={styles.editButton} onClick={() => handleEdit(movie.id)}>Edit</button>
-                    <button style={styles.deleteButton} onClick={() => handleDelete(movie.id)}>Delete</button>
+                    <button style={styles.editButton} onClick={() => handleEdit(movie._id)}>Edit</button>
+                    <button style={styles.deleteButton} onClick={() => handleDelete(movie._id)}>Delete</button>
                   </div>
                 </div>
               </div>
