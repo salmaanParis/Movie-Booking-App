@@ -1,7 +1,7 @@
 // userRoutes.js
 
 const express = require('express');
-const User = require('../models/user');  // Correct path to user model
+const User = require('../models/User.js'); 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Movie = require('../models/movieModel');
