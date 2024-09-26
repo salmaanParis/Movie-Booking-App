@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api', // Ensure this matches your backend server URL
+  baseURL: 'https://movie-booking-app-delta.vercel.app',
   headers: {
     'Content-Type': 'application/json',
   },
