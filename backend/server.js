@@ -26,7 +26,7 @@ app.use('/api/users', userRoutes); // User-related routes
 app.use('/api/bookings', bookingRoutes); // Booking-related routes
 
 app.get('/api/test', (req, res) => {
-  res.send('server is working now>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'); // Respond with a test string
+  res.send('server is working now>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'); // Respond with a test string
 });
 
 // Global error handler
