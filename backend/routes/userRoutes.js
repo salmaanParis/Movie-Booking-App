@@ -1,8 +1,11 @@
+// userRoutes.js
+
 const express = require('express');
 const User = require('../models/user');  // Correct path to user model
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Movie = require('../models/movieModel');
+
 
 const router = express.Router();
 
@@ -104,6 +107,23 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+
+// Get movie details by ID
+router.get('/movies/:id', async (req, res) => {
+  try {
+    const movie = await Movie.findById(req.params.id);
+    if (!movie) {
+      return res.status(404).json({ message: 'Movie not found' });
+    }
+    res.json({ movie });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
 
 module.exports = router;
 

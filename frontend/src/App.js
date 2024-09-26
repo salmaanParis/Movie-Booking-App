@@ -22,6 +22,7 @@ import BookingPage from './pages/BookingPage';
 import CustomerDashboard from './pages/CustomerDashboard';
 import AdminLogin from './pages/AdminLogin'; // Import AdminLogin
 import AdminDashboard from './pages/AdminDashboard'; // Import AdminDashboard
+import ProfilePage from './pages/ProfilePage';
 
 const App = () => {
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
@@ -50,8 +51,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<><Header /><MovieCards /><LatestMoviesCarousel /><SubscriptionPlans /><Footer /></>} />
-        <Route path="/movie" element={<><Navbar /><MovieDetails /><Footer /></>} />
+        {/* <Route path="/" element={<><Header /><MovieCards /><LatestMoviesCarousel /><SubscriptionPlans /><Footer /></>} /> */}
+        <Route path="/movie/:id" element={<><Navbar /><MovieDetails /><Footer /></>} />
         <Route path="/list" element={<><Navbar /><MovieListing /><Footer /></>} />
         <Route path="/login" element={<Login onLogin={handleCustomerLogin} />} />
         <Route path="/signup" element={<Signup />} />
@@ -63,11 +64,13 @@ const App = () => {
         <Route path="/dash" element={<><Navbar /><CustomerDashboard /><Footer /></>} />
         <Route path="/adminlog" element={<AdminLogin />} />
         <Route path="/admindash" element={<AdminDashboard />} />
+        <Route path="profile" element={<ProfilePage/>}/>
+        
         <Route 
-          path="/trending" 
+          path="/" 
           element={
             <div style={styles.appContainer}>
-              <Navbar />
+              <Header/>
               <HeroSection />
               <CategoryFilter />
               <TrendingSection />
