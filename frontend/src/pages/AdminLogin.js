@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import for navigation
 
 const styles = {
   container: {
@@ -30,15 +31,33 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
   },
+  error: {
+    color: 'red',
+    marginBottom: '10px',
+  },
 };
 
-function AdminLogin({ onLogin }) {
+function AdminLogin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // For error handling
+  const navigate = useNavigate(); // Navigation hook
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin({ username, password });
+
+    // Default credentials
+    const defaultUsername = 'admin@gmail.com';
+    const defaultPassword = 'admin123';
+
+    // Validate credentials
+    if (username === defaultUsername && password === defaultPassword) {
+      // Successful login, redirect to admin dashboard
+      navigate('/admindash');
+    } else {
+      // Error handling for invalid credentials
+      setError('Invalid username or password');
+    }
   };
 
   return (
@@ -46,6 +65,7 @@ function AdminLogin({ onLogin }) {
       <div style={styles.form}>
         <h2>Admin Login</h2>
         <form onSubmit={handleSubmit}>
+          {error && <div style={styles.error}>{error}</div>} {/* Display error */}
           <input
             type="text"
             placeholder="Username"
@@ -60,11 +80,12 @@ function AdminLogin({ onLogin }) {
             onChange={(e) => setPassword(e.target.value)}
             style={styles.input}
           />
-          <button type="submit" style={styles.button}>Login</button>
+          <button type="submit" style={styles.button}>
+            Login
+          </button>
         </form>
       </div>
     </div>
   );
 }
 
-export default AdminLogin;
