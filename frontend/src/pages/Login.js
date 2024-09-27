@@ -11,15 +11,22 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      // Make the login request to the backend
-      const response = await api.post('/users/login', { email, password });
-      // Assuming the backend sends a token and user info
-      localStorage.setItem('userInfo', JSON.stringify(response.data));
-      // Redirect to the "/list" page
-      navigate('/list');
-    } catch (err) {
-      setError('Invalid email or password');
+
+    // Check if admin credentials are entered
+    if (email === 'admin@gmail.com' && password === 'admin123') {
+      // Redirect to admin dashboard
+      navigate('/admindash');
+    } else {
+      try {
+        // Make the login request to the backend
+        const response = await api.post('/users/login', { email, password });
+        // Assuming the backend sends a token and user info
+        localStorage.setItem('userInfo', JSON.stringify(response.data));
+        // Redirect to the "/list" page for regular users
+        navigate('/list');
+      } catch (err) {
+        setError('Invalid email or password');
+      }
     }
   };
 
@@ -137,3 +144,4 @@ const Login = () => {
 };
 
 export default Login;
+
