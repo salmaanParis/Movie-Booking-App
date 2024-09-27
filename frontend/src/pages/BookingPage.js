@@ -165,7 +165,7 @@ const BookingPage = () => {
         {`
           .booking-page {
             font-family: 'Arial', sans-serif;
-            padding: 20px;
+            padding: 120px;
             max-width: 800px;
             margin: auto;
             background-color: #f8f9fa;
