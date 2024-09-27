@@ -60,7 +60,7 @@ const App = () => {
         <Route path="/confirm-password" element={<ConfirmPassword />} />
         <Route path="/watchlater" element={<><Navbar /><WatchLater /><Footer /></>} />
         <Route path="/favorites" element={<><Navbar /><FavoriteMovies /><Footer /></>} />
-        <Route path="/booking" element={<BookingPage />} />
+         <Route path="/booking" element={<><Navbar /><BookingPage /><Footer /></>} />
         <Route path="/dash" element={<><Navbar /><CustomerDashboard /><Footer /></>} />
         <Route path="/adminlog" element={<AdminLogin />} />
         <Route path="/admindash" element={<AdminDashboard />} />
